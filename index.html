@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div style="width: 100%; max-width: 800px; margin: 20px auto;">
+        <!-- نمودار میله‌ای: دسته‌بندی‌ها از پایگاه داده Notion -->
+        <canvas id="barChart"></canvas>
+        
+        <!-- نمودار خطی: روندهای زمانی از پایگاه داده Notion -->
+        <canvas id="lineChart" style="margin-top: 40px;"></canvas>
+    </div>
+
+    <script>
+        // نمودار میله‌ای: دسته‌بندی‌ها (مثال: وظایف بر اساس وضعیت)
+        const barCtx = document.getElementById('barChart').getContext('2d');
+        new Chart(barCtx, {
+            type: 'bar',
+            data: {
+                labels: ['انجام نشده', 'در حال انجام', 'انجام شده', 'مسدود'], // خصوصیت Select/Status در Notion
+                datasets: [{
+                    label: 'تعداد',
+                    data: [12, 8, 25, 3], // خصوصیت Number/Count در Notion
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.8)',
+                        'rgba(54, 162, 235, 0.8)', 
+                        'rgba(75, 192, 192, 0.8)',
+                        'rgba(255, 159, 64, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(75, 192, 192, 1)', 
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'توزیع وضعیت وظایف'
+                    },
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { stepSize: 1 }
+                    }
+                }
+            }
+        });
+
+        // نمودار خطی: روندهای زمانی (مثال: وظایف تکمیل شده هفتگی)
+        const lineCtx = document.getElementById('lineChart').getContext('2d');
+        new Chart(lineCtx, {
+            type: 'line',
+            data: {
+                labels: ['هفته ۱', 'هفته ۲', 'هفته ۳', 'هفته ۴', 'هفته ۵'], // خصوصیت Date در Notion
+                datasets: [{
+                    label: 'وظایف تکمیل شده',
+                    data: [5, 12, 8, 15, 20], // خصوصیت Rollup/Formula در Notion
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                    tension: 0.1,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'روند تکمیل وظایف هفتگی'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
